@@ -5,245 +5,229 @@
     <meta charset="utf-8">
     <title>Easy Landscape Services Ltd. - Get A Quote</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Google Web Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">  
 
-    <!-- Icon Font Stylesheet -->
+    <!-- Icons / Libraries -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="styles.css" rel="stylesheet">
+
+    <!-- Leaflet + Draw + Geocoder CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+<style>
+#yardMap { height: 520px; border-radius: 12px; overflow: hidden; }
+.badge-mode {padding:.45rem .65rem;border-radius:8px;margin-right:.5rem;font-weight:600;user-select:none;}
+.badge-include {background:#e8f5e9;border:1px solid #348E38;color:#0F4229;}
+.badge-exclude {background:#fff2f2;border:1px solid #c94141;color:#8a1d1d;cursor:pointer;}
+.yard-toolbar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+.yard-pill{padding:.4rem .7rem;border-radius:999px;background:#0f4229;color:#fff;font-weight:600;}
+.leaflet-bar a {font-size:16px !important;}
+</style>
+
 </head>
-
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-    </div>
-    <!-- Spinner End -->
 
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-dark text-light px-0 py-2">
-        <div class="row gx-0 d-none d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
-                <div class="h-100 d-inline-flex align-items-center me-4">
-                    <span class="fa fa-phone-alt me-2"></span>
-                    <span>+1 (403) 614-8476</span>
-                </div>
-                <div class="h-100 d-inline-flex align-items-center">
-                    <span class="far fa-envelope me-2"></span>
-                    <span>myoussef@easylandscape.ca</span>
-                </div>
-            </div>
-            <div class="col-lg-5 px-5 text-end">
-                <div class="h-100 d-inline-flex align-items-center mx-n2">
-                    <span>Follow Us:</span>
-                    <a class="btn btn-link text-light" href="https://www.facebook.com/profile.php?id=100089661993357"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-link text-light" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-link text-light" href="https://www.linkedin.com/search/results/all/?heroEntityKey=urn%3Ali%3Aorganization%3A106712305&keywords=Easylandscape%20Services%20Ltd.&origin=ENTITY_SEARCH_HOME_HISTORY&sid=iDl"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-link text-light" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
+<!-- Spinner -->
+<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
+</div>
+
+<!-- Topbar -->
+<div class="container-fluid bg-dark text-light px-0 py-2 d-none d-lg-block">
+    <div class="row gx-0">
+        <div class="col-lg-7 px-5 text-start">
+            <span class="fa fa-phone-alt me-2"></span> +1 (403) 614-8476 &nbsp;&nbsp;
+            <span class="far fa-envelope me-2"></span> myoussef@easylandscape.ca
+        </div>
+        <div class="col-lg-5 px-5 text-end">
+            <span>Follow Us:</span>
+            <a class="btn btn-link text-light" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-link text-light" href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
-    <!-- Topbar End -->
+</div>
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h1 class="m-0">Easy Landscape</h1>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="services.html" class="nav-item nav-link">Services</a>
-                <a href="projects.html" class="nav-item nav-link">Projects</a>
-                <a href="contactus.html" class="nav-item nav-link">Contact Us</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu bg-light m-0">
-                        <a href="feature.html" class="dropdown-item">Features</a>
-                        <a href="quote.html" class="dropdown-item active">Free Quote</a>
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
-            </div>
-            <a href="quote.html" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">Get A Quote<i class="fa fa-arrow-right ms-3"></i></a>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
+    <a href="index.html" class="navbar-brand px-4">
+        <h1 class="m-0">Easy Landscape</h1>
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="index.html" class="nav-item nav-link">Home</a>
+            <a href="about.html" class="nav-item nav-link">About Us</a>
+            <a href="landscape.html" class="nav-item nav-link">Landscape</a>
+            <a href="construction.html" class="nav-item nav-link">Construction</a>
+            <a href="projects-gallery.html" class="nav-item nav-link">Projects Gallery</a>
         </div>
-    </nav>
-    <!-- Navbar End -->
-
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Get A Free Quote</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a class="text-white" href="index.html">Home</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Get A Quote</li>
-                </ol>
-            </nav>
-        </div>
+        <a href="quote.html" class="btn btn-primary py-4 px-lg-4 d-none d-lg-block">Get A Quote</a>
     </div>
-    <!-- Page Header End -->
+</nav>
 
-    <!-- Quote Start -->
-    <div class="container-fluid quote my-5 py-5" data-parallax="scroll" data-image-src="img/carousel-2.jpg">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="bg-white rounded p-4 p-sm-5 wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="display-5 text-center mb-5">Get A Free Quote</h1>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-sm-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control bg-light border-0" id="name" placeholder="Your Name" required>
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control bg-light border-0" id="email" placeholder="Your Email" required>
-                                        <label for="email">Your Email</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-floating">
-                                        <input type="tel" class="form-control bg-light border-0" id="mobile" placeholder="Your Mobile">
-                                        <label for="mobile">Your Mobile</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-floating">
-                                        <select class="form-control bg-light border-0" id="serviceType">
-                                            <option value="">Select Service</option>
-                                            <option value="landscaping">Landscaping</option>
-                                            <option value="spring-cleanup">Spring Clean-Up</option>
-                                            <option value="power-raking">Power Raking</option>
-                                            <option value="garden-maintenance">Garden Bed Maintenance</option>
-                                            <option value="core-aeration">Core Aeration</option>
-                                            <option value="fertilization">Fertilization</option>
-                                        </select>
-                                        <label for="serviceType">Service Type</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control bg-light border-0" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
-                                        <label for="message">Message</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 text-center">
-                                    <button class="btn btn-primary py-3 px-4" type="submit">Submit Now</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+<!-- Header -->
+<div class="container-fluid page-header py-5 mb-5 text-white">
+    <div class="container py-5">
+        <h1 class="display-3">Get A Free Quote</h1>
+    </div>
+</div>
+
+<!-- Quote Form -->
+<div class="container quote bg-white p-5 rounded shadow">
+    <h1 class="text-center mb-5">Get A Free Quote</h1>
+
+    <form>
+
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6"><input class="form-control" placeholder="Name" required></div>
+            <div class="col-sm-6"><input class="form-control" placeholder="Email" required type="email"></div>
+            <div class="col-sm-6"><input class="form-control" placeholder="Phone"></div>
+            <div class="col-sm-6">
+                <select class="form-control" required>
+                    <option value="">Select Service</option>
+                    <option>Landscaping</option>
+                    <option>Lawn Maintenance</option>
+                    <option>Spring Clean-Up</option>
+                    <option>Snow Removal</option>
+                </select>
             </div>
         </div>
-    </div>
-    <!-- Quote End -->
 
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer mt-5 py-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Our Office</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Calgary, Alberta</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+1 (403) 614-8476</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>myoussef@easylandscape.ca</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="https://www.facebook.com/profile.php?id=100089661993357"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="https://www.linkedin.com/search/results/all/?heroEntityKey=urn%3Ali%3Aorganization%3A106712305&keywords=Easylandscape%20Services%20Ltd.&origin=ENTITY_SEARCH_HOME_HISTORY&sid=iDl"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Services</h4>
-                    <a class="btn btn-link" href="">Landscaping</a>
-                    <a class="btn btn-link" href="">Fertilization</a>
-                    <a class="btn btn-link" href="">Core Aeration</a>
-                    <a class="btn btn-link" href="">Garden Maintenance</a>
-                    <a class="btn btn-link" href="">Spring Clean-Up</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Newsletter</h4>
-                    <div class="position-relative w-100">
-                        <input class="form-control bg-light border-light w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div>
-            </div>
+        <h5>Measure Your Yard (Optional)</h5>
+        <p class="text-muted">Search address → outline lawn → exclude house → area auto-fills</p>
+
+        <div class="yard-toolbar mb-2">
+            <span id="modeInclude" class="badge-mode badge-include">Drawing: Lawn (Include)</span>
+            <span id="modeExclude" class="badge-mode badge-exclude">Switch to Exclusion Mode</span>
+            <button id="clearAll" type="button" class="btn btn-sm btn-outline-secondary">Clear</button>
+            <span id="areaPill" class="yard-pill ms-auto">Area: 0 ft² (0 m²)</span>
         </div>
-    </div>
-    <!-- Footer End -->
 
-    <!-- Copyright Start -->
-    <div class="container-fluid copyright py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">easylandscape-services-ltd</a>, All Right Reserved.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright End -->
+        <div id="yardMap" class="mb-3"></div>
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <!-- Hidden fields submitted -->
+        <input id="yardAreaSqft" name="yardAreaSqft" type="hidden">
+        <input id="yardAreaSqm"  name="yardAreaSqm" type="hidden">
+        <input id="mapLat" name="mapLat" type="hidden">
+        <input id="mapLng" name="mapLng" type="hidden">
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+        <textarea class="form-control mb-4" placeholder="Message" rows="4"></textarea>
 
-    <!-- Template Javascript this is saif-->
-    <script src="main.js"></script>
+        <button class="btn btn-primary w-100 py-3">Submit Quote</button>
+
+    </form>
+</div>
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+
+<!-- Leaflet + plugins + Turf -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+
+<script>
+(function(){
+
+var map = L.map('yardMap').setView([51.0447, -114.0719], 16);
+
+// High-Res ESRI satellite + labels
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+  .addTo(map);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{opacity:.8})
+  .addTo(map);
+
+// Address Search
+L.Control.geocoder({defaultMarkGeocode:false,placeholder:"Search address…"})
+.on('markgeocode', e=>{
+    var c=e.geocode.center;
+    map.setView(c,19);
+    document.getElementById("mapLat").value=c.lat;
+    document.getElementById("mapLng").value=c.lng;
+})
+.addTo(map);
+
+var include = new L.FeatureGroup().addTo(map);
+var exclude = new L.FeatureGroup().addTo(map);
+
+var drawControl = new L.Control.Draw({
+  draw:{
+    polygon:{allowIntersection:false,showArea:true,shapeOptions:{color:"#348E38",fillOpacity:.25}},
+    rectangle:false,polyline:false,marker:false,circle:false,circlemarker:false
+  },
+  edit:{featureGroup:new L.FeatureGroup([include,exclude])}
+});
+map.addControl(drawControl);
+
+var exclusionMode=false;
+function modeText(){document.getElementById("modeInclude").textContent=exclusionMode?"Switch to Lawn Mode":"Drawing: Lawn (Include)";}
+
+document.getElementById("modeExclude").onclick=()=>{exclusionMode=true;modeText();}
+document.getElementById("modeInclude").onclick=()=>{exclusionMode=false;modeText();}
+
+document.getElementById("clearAll").onclick=()=>{
+  include.clearLayers();exclude.clearLayers();updateArea();
+};
+
+map.on(L.Draw.Event.CREATED,function(e){
+  var layer=e.layer;
+  if(exclusionMode){
+    layer.setStyle({color:"#c94141",fillOpacity:.25});
+    exclude.addLayer(layer);
+  } else {
+    layer.setStyle({color:"#348E38",fillOpacity:.25});
+    include.addLayer(layer);
+  }
+  try{map.fitBounds(layer.getBounds(),{maxZoom:20});}catch(e){}
+  updateArea();
+});
+map.on(L.Draw.Event.EDITED,updateArea);
+map.on(L.Draw.Event.DELETED,updateArea);
+
+function groupToPoly(g){
+  var polys=[];g.eachLayer(l=>{
+    var gj=l.toGeoJSON();if(!gj.geometry)return;
+    if(gj.geometry.type==="Polygon")polys.push(gj.geometry.coordinates);
+    if(gj.geometry.type==="MultiPolygon")polys=polys.concat(gj.geometry.coordinates);
+  });
+  return polys.length?turf.multiPolygon(polys):null;
+}
+
+function updateArea(){
+  var i=groupToPoly(include), e=groupToPoly(exclude), sqm=0;
+  if(i){
+    var geom=i;
+    if(e) e.coordinates.forEach(c=>{var d=turf.difference(geom,turf.polygon(c));geom=d||geom;});
+    sqm=turf.area(geom);
+  }
+  var sqft=sqm*10.7639;
+  document.getElementById("yardAreaSqft").value=Math.round(sqft);
+  document.getElementById("yardAreaSqm").value=Math.round(sqm);
+  document.getElementById("areaPill").textContent="Area: "+Math.round(sqft).toLocaleString()+" ft² ("+Math.round(sqm)+" m²)";
+}
+
+})();
+</script>
+
 </body>
-
-</html> 
+</html>
