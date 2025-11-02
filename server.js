@@ -3,6 +3,8 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const axios = require("axios");
+
 
 dotenv.config();
 const app = express();
@@ -139,3 +141,28 @@ app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
   console.log(`📩 Ready at http://localhost:${PORT}/api/quotes`);
 });
+
+let emailSent = false;
+
+try {
+  await axios.post(
+    "https://api.brevo.com/v3/smtp/email",
+    {
+      sender: { email: process.env.TO_EMAIL, name: "Easy Landscape" },
+      to: [{ email: process.env.TO_EMAIL }],
+      subject: `New Quote Request from ${name}`,
+      htmlContent: `<h2>New Quote Request</h2><pre>${JSON.stringify(formData, null, 2)}</pre>`
+    },
+    {
+      headers: {
+        "api-key": process.env.BREVO_API_KEY,
+        "Content-Type": "application/json"
+      }
+    }
+  );
+
+  emailSent = true;
+  console.log(`📧 Brevo API email sent → ${process.env.TO_EMAIL}`);
+} catch (e) {
+  console.error("⚠️ Brevo email API failed:", e.message);
+}
