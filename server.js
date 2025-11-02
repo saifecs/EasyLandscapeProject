@@ -23,21 +23,17 @@ if (process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY) 
   });
 }
 
-// Email transporter setup - try port 587 with STARTTLS (more reliable on cloud hosts)
+// Email transporter setup - uses environment variables for flexibility
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  requireTLS: true,
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
-  connectionTimeout: 30000, // 30 seconds
-  greetingTimeout: 10000, // 10 seconds
-  socketTimeout: 30000, // 30 seconds
   tls: {
-    rejectUnauthorized: false // Some cloud hosts need this
+    rejectUnauthorized: false
   }
 });
 
@@ -267,7 +263,7 @@ Message: ${formData.message || "No message provided"}
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.SMTP_USER,
       to: process.env.TO_EMAIL,
       subject: emailSubject,
       text: emailText,
@@ -277,7 +273,7 @@ Message: ${formData.message || "No message provided"}
     // Send email (if configured) with timeout
     // Note: Email may fail on cloud hosts due to SMTP restrictions - form still succeeds
     let emailSent = false;
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.ENABLE_EMAIL !== 'false') {
+    if (process.env.SMTP_HOST && process.env.SMTP_PORT && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.ENABLE_EMAIL !== 'false') {
       try {
         // Wrap in Promise.race to add timeout
         const emailPromise = transporter.sendMail(mailOptions);
@@ -331,7 +327,7 @@ app.post("/submit-form", async (req, res) => {
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.SMTP_USER,
       to: process.env.TO_EMAIL,
       subject: `New Quote Request from ${name}`,
       text: `
