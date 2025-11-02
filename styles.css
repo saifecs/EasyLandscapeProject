@@ -150,6 +150,7 @@ h6,
     font-size: 18px;
     font-weight: 500;
     outline: none;
+    white-space: nowrap;
 }
 
 .navbar .navbar-nav .nav-link:hover,

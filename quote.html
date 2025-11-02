@@ -72,10 +72,12 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="index.html" class="nav-item nav-link">Home</a>
-            <a href="about.html" class="nav-item nav-link">About Us</a>
             <a href="landscape.html" class="nav-item nav-link">Landscape</a>
             <a href="construction.html" class="nav-item nav-link">Construction</a>
+            <a href="snow.html" class="nav-item nav-link">Snow</a>
+            <a href="christmas-lights.html" class="nav-item nav-link">Christmas Lights</a>
             <a href="projects-gallery.html" class="nav-item nav-link">Projects Gallery</a>
+            <a href="about.html" class="nav-item nav-link">About Us</a>
         </div>
         <a href="quote.html" class="btn btn-primary py-4 px-lg-4 d-none d-lg-block">Get A Quote</a>
     </div>
@@ -92,14 +94,14 @@
 <div class="container quote bg-white p-5 rounded shadow">
     <h1 class="text-center mb-5">Get A Free Quote</h1>
 
-    <form>
+    <form id="quoteForm">
 
         <div class="row g-3 mb-4">
-            <div class="col-sm-6"><input class="form-control" placeholder="Name" required></div>
-            <div class="col-sm-6"><input class="form-control" placeholder="Email" required type="email"></div>
-            <div class="col-sm-6"><input class="form-control" placeholder="Phone"></div>
+            <div class="col-sm-6"><input class="form-control" id="quoteName" name="quoteName" placeholder="Name" required></div>
+            <div class="col-sm-6"><input class="form-control" id="quoteEmail" name="quoteEmail" placeholder="Email" required type="email"></div>
+            <div class="col-sm-6"><input class="form-control" id="quotePhone" name="quotePhone" placeholder="Phone"></div>
             <div class="col-sm-6">
-                <select class="form-control" required>
+                <select class="form-control" id="quoteService" name="quoteService" required>
                     <option value="">Select Service</option>
                     <option>Landscaping</option>
                     <option>Lawn Maintenance</option>
@@ -127,9 +129,14 @@
         <input id="mapLat" name="mapLat" type="hidden">
         <input id="mapLng" name="mapLng" type="hidden">
 
-        <textarea class="form-control mb-4" placeholder="Message" rows="4"></textarea>
+        <textarea class="form-control mb-4" id="quoteMessage" name="quoteMessage" placeholder="Message" rows="4"></textarea>
 
-        <button class="btn btn-primary w-100 py-3">Submit Quote</button>
+        <div id="quoteMessageAlert" class="alert d-none mb-3"></div>
+
+        <button type="submit" class="btn btn-primary w-100 py-3" id="quoteSubmitBtn">
+            <span id="quoteSubmitText">Submit Quote</span>
+            <span id="quoteSubmitSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
+        </button>
 
     </form>
 </div>
@@ -139,6 +146,85 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="main.js"></script>
+
+<!-- Backend Integration -->
+<script type="text/javascript">
+    // Backend API URL - Update this to your production URL when deploying
+    const API_BASE_URL = 'http://localhost:3000';
+    
+    // Handle quote form submission
+    document.getElementById('quoteForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const submitBtn = document.getElementById('quoteSubmitBtn');
+        const submitText = document.getElementById('quoteSubmitText');
+        const submitSpinner = document.getElementById('quoteSubmitSpinner');
+        const alertDiv = document.getElementById('quoteMessageAlert');
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+        submitSpinner.classList.remove('d-none');
+        alertDiv.classList.add('d-none');
+        
+        // Prepare form data
+        const formData = {
+            formType: 'landscape_quote',
+            name: document.getElementById('quoteName').value,
+            email: document.getElementById('quoteEmail').value,
+            phone: document.getElementById('quotePhone').value || null,
+            service: document.getElementById('quoteService').value,
+            message: document.getElementById('quoteMessage').value || null,
+            yardAreaSqft: document.getElementById('yardAreaSqft').value || null,
+            yardAreaSqm: document.getElementById('yardAreaSqm').value || null,
+            mapLat: document.getElementById('mapLat').value || null,
+            mapLng: document.getElementById('mapLng').value || null,
+            timestamp: new Date().toISOString()
+        };
+        
+        try {
+            // Send to backend API
+            const response = await fetch(`${API_BASE_URL}/api/quotes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                // Success
+                alertDiv.className = 'alert alert-success';
+                alertDiv.innerHTML = '<strong>Success!</strong> Your quote request has been sent. We\'ll get back to you soon!';
+                alertDiv.classList.remove('d-none');
+                
+                // Reset form
+                document.getElementById('quoteForm').reset();
+                document.getElementById('areaPill').textContent = 'Area: 0 ft² (0 m²)';
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitText.textContent = 'Submit Quote';
+                submitSpinner.classList.add('d-none');
+            } else {
+                throw new Error(result.message || 'Server error');
+            }
+        } catch (error) {
+            // Error
+            console.error('Error submitting form:', error);
+            alertDiv.className = 'alert alert-danger';
+            alertDiv.innerHTML = '<strong>Error!</strong> There was a problem sending your request. Please try again or contact us directly at +1 (403) 614-8476.';
+            alertDiv.classList.remove('d-none');
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitText.textContent = 'Submit Quote';
+            submitSpinner.classList.add('d-none');
+        }
+    });
+</script>
 
 <!-- Leaflet + plugins + Turf -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -231,3 +317,4 @@ function updateArea(){
 
 </body>
 </html>
+ 

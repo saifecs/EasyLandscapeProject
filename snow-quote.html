@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Construction Quote Request - Easy Landscape Services Ltd. | Calgary, Alberta</title>
+    <title>Snow Removal Quote Request - Easy Landscape Services Ltd. | Calgary, Alberta</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="construction quote, concrete patios quote, wood decks quote, concrete driveways quote Calgary" name="keywords">
-    <meta content="Request a free quote for construction services in Calgary. Fill out your project information for concrete patios, wood decks, sidewalks, and driveways." name="description">
+    <meta content="snow removal quote, snow plowing quote, driveway clearing quote Calgary" name="keywords">
+    <meta content="Request a free quote for snow removal services in Calgary. Fill out your information for residential or commercial snow removal services." name="description">
 
     <link href="img/favicon.ico" rel="icon">
 
@@ -73,16 +73,16 @@
 <!-- Header -->
 <div class="container-fluid page-header py-5 mb-5 text-white" style="background: linear-gradient(rgba(52, 142, 56, .75), rgba(15, 66, 41, .75)), url(img/carousel-1.jpg) center center no-repeat; background-size: cover;">
     <div class="container py-5">
-        <h1 class="display-3">Construction Quote Request</h1>
-        <p class="lead">Tell us about your construction project and we'll provide you with a detailed quote.</p>
+        <h1 class="display-3">Snow Removal Quote Request</h1>
+        <p class="lead">Tell us about your snow removal needs and we'll provide you with a detailed quote.</p>
     </div>
 </div>
 
-<!-- Construction Quote Form -->
+<!-- Snow Quote Form -->
 <div class="container quote bg-white p-5 rounded shadow mb-5">
-    <h2 class="text-center mb-4">Project Information</h2>
+    <h2 class="text-center mb-4">Service Information</h2>
 
-    <form id="constructionQuoteForm">
+    <form id="snowQuoteForm">
         <div class="row g-3 mb-4">
             <div class="col-md-6">
                 <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -97,63 +97,50 @@
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="(403) 555-1234" required>
             </div>
             <div class="col-md-6">
-                <label for="address" class="form-label">Project Address <span class="text-danger">*</span></label>
+                <label for="address" class="form-label">Service Address <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="address" name="address" placeholder="123 Main Street, Calgary, AB" required>
             </div>
         </div>
 
         <div class="mb-4">
-            <label for="serviceType" class="form-label">Construction Service <span class="text-danger">*</span></label>
+            <label for="serviceType" class="form-label">Snow Removal Service <span class="text-danger">*</span></label>
             <select class="form-control" id="serviceType" name="serviceType" required>
                 <option value="">Select Service</option>
-                <option value="concrete-patios">Concrete Patios</option>
-                <option value="wood-decks">Wood Decks</option>
-                <option value="concrete-sidewalks">Concrete Sidewalks</option>
-                <option value="concrete-driveways">Concrete Driveways</option>
+                <option value="residential-snow">Residential Snow Removal</option>
+                <option value="commercial-snow">Commercial Snow Removal</option>
+                <option value="driveway-plowing">Driveway Plowing</option>
+                <option value="sidewalk-clearing">Sidewalk Clearing</option>
                 <option value="multiple">Multiple Services</option>
             </select>
         </div>
 
         <div class="mb-4">
-            <label for="projectDetails" class="form-label">Project Details</label>
-            <textarea class="form-control" id="projectDetails" name="projectDetails" rows="4" placeholder="Please describe your project in detail. Include dimensions, preferred materials, timeline, and any specific requirements..."></textarea>
-            <small class="form-text text-muted">Include dimensions (length, width), preferred materials, desired timeline, and any special requirements.</small>
+            <label for="projectDetails" class="form-label">Service Details</label>
+            <textarea class="form-control" id="projectDetails" name="projectDetails" rows="4" placeholder="Please describe your snow removal needs. Include property size, access points, frequency requirements, and any specific requirements..."></textarea>
+            <small class="form-text text-muted">Include property size, access points, desired frequency (one-time or seasonal contract), and any special requirements.</small>
         </div>
 
         <div class="row g-3 mb-4">
             <div class="col-md-6">
-                <label for="approximateSize" class="form-label">Approximate Size (sq. ft.)</label>
-                <input type="number" class="form-control" id="approximateSize" name="approximateSize" placeholder="e.g., 400" min="0">
-            </div>
-            <div class="col-md-6">
-                <label for="preferredTimeline" class="form-label">Preferred Timeline</label>
+                <label for="preferredTimeline" class="form-label">Service Start Date</label>
                 <select class="form-control" id="preferredTimeline" name="preferredTimeline">
                     <option value="">Select Timeline</option>
                     <option value="asap">As Soon As Possible</option>
-                    <option value="1-2months">1-2 Months</option>
-                    <option value="3-6months">3-6 Months</option>
-                    <option value="6+months">6+ Months</option>
+                    <option value="this-week">This Week</option>
+                    <option value="next-week">Next Week</option>
+                    <option value="seasonal-contract">Seasonal Contract (Full Winter)</option>
                     <option value="flexible">Flexible</option>
                 </select>
             </div>
-        </div>
-
-        <div class="mb-4">
-            <label for="budgetRange" class="form-label">Budget Range</label>
-            <select class="form-control" id="budgetRange" name="budgetRange">
-                <option value="">Select Budget Range</option>
-                <option value="under-5000">Under $5,000</option>
-                <option value="5000-10000">$5,000 - $10,000</option>
-                <option value="10000-25000">$10,000 - $25,000</option>
-                <option value="25000-50000">$25,000 - $50,000</option>
-                <option value="over-50000">Over $50,000</option>
-                <option value="not-sure">Not Sure</option>
-            </select>
+            <div class="col-md-6">
+                <label for="propertySize" class="form-label">Property Size (sq. ft.)</label>
+                <input type="number" class="form-control" id="propertySize" name="propertySize" placeholder="e.g., 1500" min="0">
+            </div>
         </div>
 
         <div class="mb-4">
             <label for="additionalInfo" class="form-label">Additional Information</label>
-            <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share about your project..."></textarea>
+            <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share about your snow removal needs..."></textarea>
         </div>
 
         <div class="mb-4">
@@ -165,12 +152,12 @@
             </div>
         </div>
 
-        <div id="constructionMessageAlert" class="alert d-none mb-4"></div>
+        <div id="snowMessageAlert" class="alert d-none mb-4"></div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="constructionSubmitBtn">
-                <span id="constructionSubmitText">Submit Quote Request</span>
-                <span id="constructionSubmitSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="snowSubmitBtn">
+                <span id="snowSubmitText">Submit Quote Request</span>
+                <span id="snowSubmitSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
             </button>
             <p class="text-muted mt-3 small">We'll review your information and get back to you within 24-48 hours with a detailed quote.</p>
         </div>
@@ -195,10 +182,10 @@
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-4">Services</h4>
-                <a class="btn btn-link" href="construction.html#concrete-patios">Concrete Patios</a>
-                <a class="btn btn-link" href="construction.html#wood-decks">Wood Decks</a>
-                <a class="btn btn-link" href="construction.html#concrete-sidewalks">Concrete Sidewalks</a>
-                <a class="btn btn-link" href="construction.html#concrete-driveways">Concrete Driveways</a>
+                <a class="btn btn-link" href="snow.html#residential-snow">Residential Snow Removal</a>
+                <a class="btn btn-link" href="snow.html#commercial-snow">Commercial Snow Removal</a>
+                <a class="btn btn-link" href="snow.html#driveway-plowing">Driveway Plowing</a>
+                <a class="btn btn-link" href="snow.html#sidewalk-clearing">Sidewalk Clearing</a>
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-4">Quick Links</h4>
@@ -237,14 +224,14 @@
     // Backend API URL - Update this to your production URL when deploying
     const API_BASE_URL = 'http://localhost:3000';
     
-    // Handle construction quote form submission
-    document.getElementById('constructionQuoteForm').addEventListener('submit', async function(event) {
+    // Handle snow quote form submission
+    document.getElementById('snowQuoteForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         
-        const submitBtn = document.getElementById('constructionSubmitBtn');
-        const submitText = document.getElementById('constructionSubmitText');
-        const submitSpinner = document.getElementById('constructionSubmitSpinner');
-        const alertDiv = document.getElementById('constructionMessageAlert');
+        const submitBtn = document.getElementById('snowSubmitBtn');
+        const submitText = document.getElementById('snowSubmitText');
+        const submitSpinner = document.getElementById('snowSubmitSpinner');
+        const alertDiv = document.getElementById('snowMessageAlert');
         
         // Show loading state
         submitBtn.disabled = true;
@@ -254,16 +241,15 @@
         
         // Prepare form data
         const formData = {
-            formType: 'construction_quote',
+            formType: 'snow_quote',
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
             address: document.getElementById('address').value,
             serviceType: document.getElementById('serviceType').value,
             projectDetails: document.getElementById('projectDetails').value || null,
-            approximateSize: document.getElementById('approximateSize').value || null,
+            propertySize: document.getElementById('propertySize').value || null,
             preferredTimeline: document.getElementById('preferredTimeline').value || null,
-            budgetRange: document.getElementById('budgetRange').value || null,
             additionalInfo: document.getElementById('additionalInfo').value || null,
             timestamp: new Date().toISOString()
         };
@@ -283,11 +269,11 @@
             if (response.ok) {
                 // Success
                 alertDiv.className = 'alert alert-success';
-                alertDiv.innerHTML = '<strong>Success!</strong> Your construction quote request has been sent. We\'ll review it and get back to you within 24-48 hours!';
+                alertDiv.innerHTML = '<strong>Success!</strong> Your snow removal quote request has been sent. We\'ll review it and get back to you within 24-48 hours!';
                 alertDiv.classList.remove('d-none');
                 
                 // Reset form
-                document.getElementById('constructionQuoteForm').reset();
+                document.getElementById('snowQuoteForm').reset();
                 
                 // Reset button
                 submitBtn.disabled = false;
