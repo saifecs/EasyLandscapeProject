@@ -23,15 +23,22 @@ if (process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY) 
   });
 }
 
-// Email transporter setup
+// Email transporter setup - try port 587 with STARTTLS (more reliable on cloud hosts)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  requireTLS: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  connectionTimeout: 30000, // 30 seconds
+  greetingTimeout: 10000, // 10 seconds
+  socketTimeout: 30000, // 30 seconds
+  tls: {
+    rejectUnauthorized: false // Some cloud hosts need this
+  }
 });
 
 // Function to save to Google Sheets
@@ -267,15 +274,22 @@ Message: ${formData.message || "No message provided"}
       html: emailHtml,
     };
 
-    // Send email (if configured)
+    // Send email (if configured) with timeout
     let emailSent = false;
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       try {
-        await transporter.sendMail(mailOptions);
+        // Wrap in Promise.race to add timeout
+        const emailPromise = transporter.sendMail(mailOptions);
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error("Email timeout")), 25000)
+        );
+        
+        await Promise.race([emailPromise, timeoutPromise]);
         emailSent = true;
         console.log(`Email sent for quote from ${name} (${email})`);
       } catch (emailError) {
-        console.error("Error sending email:", emailError);
+        console.error("Error sending email:", emailError.message || emailError);
+        // Continue even if email fails - data is still saved to Google Sheets
       }
     }
     
