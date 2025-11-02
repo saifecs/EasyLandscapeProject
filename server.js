@@ -354,6 +354,15 @@ Message: ${message || "No message provided"}
     res.status(500).json({ success: false, message: "Failed to send email" });
   }
 });
+app.get("/test-smtp", async (req, res) => {
+  try {
+    await transporter.verify();
+    res.send("✅ SMTP connection successful!");
+  } catch (err) {
+    console.error("SMTP Test Error:", err);
+    res.status(500).send("❌ SMTP connection failed: " + err.message);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
