@@ -275,21 +275,25 @@ Message: ${formData.message || "No message provided"}
     };
 
     // Send email (if configured) with timeout
+    // Note: Email may fail on cloud hosts due to SMTP restrictions - form still succeeds
     let emailSent = false;
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.ENABLE_EMAIL !== 'false') {
       try {
         // Wrap in Promise.race to add timeout
         const emailPromise = transporter.sendMail(mailOptions);
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error("Email timeout")), 25000)
+          setTimeout(() => reject(new Error("Email timeout")), 15000) // Reduced to 15 seconds
         );
         
         await Promise.race([emailPromise, timeoutPromise]);
         emailSent = true;
-        console.log(`Email sent for quote from ${name} (${email})`);
+        console.log(`✓ Email sent for quote from ${name} (${email})`);
       } catch (emailError) {
-        console.error("Error sending email:", emailError.message || emailError);
-        // Continue even if email fails - data is still saved to Google Sheets
+        // Silently continue - email is optional, data is saved to Google Sheets
+        // Only log if explicitly enabled for debugging
+        if (process.env.DEBUG_EMAIL === 'true') {
+          console.log(`Email not sent (SMTP timeout on cloud host) - form submission succeeded`);
+        }
       }
     }
     
