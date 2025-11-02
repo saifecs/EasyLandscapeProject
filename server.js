@@ -114,8 +114,7 @@ async function saveToGoogleSheets(formData) {
 }
 
 // Handle quote submissions (both landscape and construction)
-app.post("/submit-form", async (req, res) => {
-
+app.post("/api/quotes", async (req, res) => {
   try {
     const formData = req.body;
     const { formType, name, email, phone } = formData;
