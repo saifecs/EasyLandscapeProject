@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Christmas Lights Quote Request - Easy Landscape Services Ltd. | Calgar, Alberta</title>
+    <title>Christmas Lights Quote Request - Easy Landscape Services Ltd. | Calgary, Alberta</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Christmas lights quote, holiday lighting quote, LED lights installation quote Calgary" name="keywords">
     <meta content="Request a free quote for Christmas lights installation in Calgary. Fill out your information for residential or commercial holiday lighting services." name="description">
@@ -96,6 +96,27 @@
                 <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="(403) 555-1234" required>
             </div>
+            <div class="col-md-6">
+                <label for="address" class="form-label">Service Address <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="123 Main Street, Calgary, AB" required>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="serviceType" class="form-label">Christmas Lights Service <span class="text-danger">*</span></label>
+            <select class="form-control" id="serviceType" name="serviceType" required>
+                <option value="">Select Service</option>
+                <option value="residential-installation">Residential Installation</option>
+                <option value="commercial-installation">Commercial Installation</option>
+                <option value="led-lighting">LED Lighting</option>
+                <option value="roofline-installation">Roofline Installation</option>
+                <option value="tree-lighting">Tree Lighting</option>
+                <option value="custom-design">Custom Design</option>
+                <option value="take-down-storage">Take-Down & Storage</option>
+                <option value="holiday-maintenance">Holiday Maintenance</option>
+                <option value="window-door-trim">Window & Door Trim</option>
+                <option value="multiple">Multiple Services</option>
+            </select>
         </div>
 
         <div class="mb-4">
@@ -112,7 +133,46 @@
                     <label class="form-check-label" for="partialHouse">
                         Partial (150 feet)
                     </label>
+                    
                 </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="projectDetails" class="form-label">Project Details</label>
+            <textarea class="form-control" id="projectDetails" name="projectDetails" rows="4" placeholder="Please describe your Christmas lights project. Include areas to be lit, preferred styles, timeline, and any specific requirements..."></textarea>
+            <small class="form-text text-muted">Include areas to be lit (roofline, trees, windows, etc.), preferred styles, desired timeline, and any special requirements.</small>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label for="preferredTimeline" class="form-label">Preferred Timeline</label>
+                <select class="form-control" id="preferredTimeline" name="preferredTimeline">
+                    <option value="">Select Timeline</option>
+                    <option value="asap">As Soon As Possible</option>
+                    <option value="this-week">This Week</option>
+                    <option value="next-week">Next Week</option>
+                    <option value="1-2months">1-2 Months</option>
+                    <option value="flexible">Flexible</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="propertySize" class="form-label">Property Size (sq. ft.)</label>
+                <input type="number" class="form-control" id="propertySize" name="propertySize" placeholder="e.g., 2000" min="0">
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="additionalInfo" class="form-label">Additional Information</label>
+            <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share about your Christmas lights project..."></textarea>
+        </div>
+
+        <div class="mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="contactConsent" name="contactConsent" required>
+                <label class="form-check-label" for="contactConsent">
+                    I consent to being contacted by Easy Landscape Services Ltd. regarding this quote request. <span class="text-danger">*</span>
+                </label>
             </div>
         </div>
 
@@ -214,7 +274,13 @@
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            serviceType: document.getElementById('serviceType').value,
             lightOptions: lightOptions ? lightOptions.value : null,
+            projectDetails: document.getElementById('projectDetails').value || null,
+            propertySize: document.getElementById('propertySize').value || null,
+            preferredTimeline: document.getElementById('preferredTimeline').value || null,
+            additionalInfo: document.getElementById('additionalInfo').value || null,
             timestamp: new Date().toISOString()
         };
         
@@ -261,3 +327,4 @@
 
 </body>
 </html>
+
